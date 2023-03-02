@@ -66,7 +66,7 @@ For example, lets say we have node A, B, C, D. The only two edges are A -> B, an
 
 `Number of edges`: 2
 
-<img src="C:\Users\LN\AppData\Roaming\Typora\typora-user-images\image-20230301202530397.png" alt="image-20230301202530397" style="zoom:50%;" />
+<img src="pic\original data.png" alt="image-20230301202530397" style="zoom:50%;" />
 
 
 
@@ -74,7 +74,7 @@ For example, lets say we have node A, B, C, D. The only two edges are A -> B, an
 
 Lets say `test_pred_target_edge_count` = 0.33 right now, so we are going to randomly sample two nodes, until we get **3 * 33% = 1 of the total edges**. But at the sample time, it uses negative sampling, which meanings get the **same number** of **‘pseudo edges’**, that does not exist in the graph.
 
-<img src="C:\Users\LN\AppData\Roaming\Typora\typora-user-images\image-20230301204131186.png" alt="image-20230301204131186" style="zoom:50%;" />
+<img src="pic\test data.png" alt="image-20230301204131186" style="zoom:50%;" />
 
 For example, randomly select `C -> D` , then it would be positive sample `1`. The `train_test_split` automatically use negative sampling to get the **same number** of **‘pseudo edges’**. For example, let it be `B -> D`. There is not really connection here it is just used to balance the data. 
 
@@ -87,7 +87,7 @@ So the **test set** includes:
 
 
 
-![image-20230301203224441](C:\Users\LN\AppData\Roaming\Typora\typora-user-images\image-20230301203224441.png)
+![image-20230301203224441](pic\source code.png)
 
 ```Python
 edge_splitter_test = EdgeSplitter(st_g)
@@ -98,7 +98,7 @@ G_test, edge_ids_test, edge_labels_test = edge_splitter_test.train_test_split(
 
 Take a closer look at the function, here `edge_ids_test` and `edge_labels_test` are the test table discussed above. `G_test` is the reduced graph (positive edges removed) as follow:
 
-<img src="C:\Users\LN\AppData\Roaming\Typora\typora-user-images\image-20230301205236152.png" alt="image-20230301205236152" style="zoom:50%;" />
+<img src="pic\train data.png" alt="image-20230301205236152" style="zoom:50%;" />
 
 **Train data:**
 
@@ -111,7 +111,7 @@ The same process. By setting `train_pred_target_edge_count` = .99999. It basical
 
 And it also do **negative sampling** to get the sample amount of negative samples. So it turns to be :
 
-<img src="C:\Users\LN\AppData\Roaming\Typora\typora-user-images\image-20230301205855504.png" alt="image-20230301205855504" style="zoom:50%;" />
+<img src="pic\train data negative sampling.png" alt="image-20230301205855504" style="zoom:50%;" />
 
 |     id     | label |
 | :--------: | :---: |
@@ -128,7 +128,7 @@ The test data is not an reasonable benchmark reflecting the **real world distrib
 
 It should be something like:
 
-<img src="C:\Users\LN\AppData\Roaming\Typora\typora-user-images\image-20230301211253648.png" alt="image-20230301211253648" style="zoom:33%;" />
+<img src="pic\imbalance.png" alt="image-20230301211253648" style="zoom:33%;" />
 
 The prediction we are going to make is a set connecting each two possible nodes. That is $A_8^2 - 3 = 53$. The **sparsity** means that **only a few of them** are supposed to be connected! Let’s say only `A->D` should be positive. So the `positive:negative=1:52`. In my opinion, that is why the problem is imbalanced.
 
