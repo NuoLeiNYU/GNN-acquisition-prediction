@@ -87,7 +87,7 @@ So the **test set** includes:
 
 
 
-![image-20230301203224441](pic\source code.png)
+<img src="pic\source code.png" alt="image-20230301205236152" style="zoom:50%;" />
 
 ```Python
 edge_splitter_test = EdgeSplitter(st_g)
